@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchPosts } from './Components/Action';
+import Home from './Components/Home';
+import Post from './Components/Post';
 
-function App() {
+const routes = [
+  { path: '/', element: <Home /> },
+  { path: '/item/:id', element: <Post /> }
+];
+
+//  dispatch an action to fetch posts
+const App = () => {
+  const dispatch = useDispatch();
+//   store updates upon called as its state based
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.element} />
+        ))}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
+
+
+// import React, { useEffect } from 'react';
+// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+
+// import Home from './Components/Home';
+
+// const routes = [
+//   { path: '/', exact: true, component: Home },
+//   { path: '/post/:id', component: Post }
+// ];
+
+// const App = () => {
+//   const dispatch = useDispatch();
+
+//   return (
+//     <Router>
+
+//       {routes.map((route, index) => (
+//   <Route
+//     key={index}
+//     path={route.path}
+//     element={<route.component />}
+//   />
+// ))}
+
+//     </Router>
+//   );
+// };
+
+// export default App;
